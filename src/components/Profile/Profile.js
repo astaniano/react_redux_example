@@ -1,17 +1,11 @@
 import MyPosts from './MyPosts/MyPosts';
+import ProfileInfo from './ProfileInfo/ProfileInfo';
 import s from './Profile.module.css';
 
-const Profile = () => {
+const Profile = (props) => {
 	return (
-		<div className={`${s.content}`}>
-			<div>
-				<img
-					src="https://p.bigstockphoto.com/GeFvQkBbSLaMdpKXF1Zv_bigstock-Aerial-View-Of-Blue-Lakes-And--227291596.jpg"
-					alt="f"
-				/>
-			</div>
-
-			<div>ava + description</div>
+		<div>
+			<ProfileInfo />
 
 			<MyPosts />
 		</div>
