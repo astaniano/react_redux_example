@@ -4,10 +4,9 @@ import Dialogs from './components/Dialogs/Dialogs';
 import Header from './components/Header/Header';
 import Navbar from './components/Navbar/Navbar';
 import Profile from './components/Profile/Profile';
-import {addPost} from "./redux/state";
 
 function App(props) {
-    let {profilePage, messagesPage, addPosts} = props.state;
+    let {profilePage, messagesPage} = props.state;
 
     return (
         <BrowserRouter>
@@ -18,7 +17,7 @@ function App(props) {
 
                 <div className="app-wrapper-content">
                     <Route path="/dialogs" render={() => <Dialogs state={messagesPage}/>}/>
-                    <Route path="/profile" render={() => <Profile state={profilePage} addPost={addPost}/>}/>
+                    <Route path="/profile" render={() => <Profile profilePage={profilePage} addPost={props.addPost} updateNewPostText={props.updateNewPostText}/>}/>
                 </div>
             </div>
         </BrowserRouter>
