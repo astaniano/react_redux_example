@@ -1,3 +1,6 @@
+const ADD_POST = "ADD-POST";
+const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
+
 const store = {
     _state: {
         profilePage: {
@@ -30,14 +33,14 @@ const store = {
         this._renderEntireTree = renderMethod;
     },
 
-    addPost() {
+    _addPost() {
         let newPost = {id: 6, msg: this._state.profilePage.newPostText, likesCount: 22};
         this._state.profilePage.posts.push(newPost);
         this._state.profilePage.newPostText = ""
 
         this._renderEntireTree(this._state);
     },
-    updateNewPostText(newPostText) {
+    _updateNewPostText(newPostText) {
         this._state.profilePage.newPostText = newPostText;
 
         this._renderEntireTree(this._state);
@@ -45,19 +48,21 @@ const store = {
 
     dispatch(action) {
         switch (action.type) {
-            case "ADD-POST":
-                this.addPost();
+            case ADD_POST:
+                this._addPost();
                 break;
-            case "UPDATE-NEW-POST-TEXT":
-                this.updateNewPostText(action.newPostText);
+            case UPDATE_NEW_POST_TEXT:
+                this._updateNewPostText(action.newPostText);
                 break;
             default:
                 console.log("could not find action")
         }
     }
-
 }
 
 window.store = store;
+
+export const addPostActionCreator = () => ({type: ADD_POST});
+export const updateNewPostActionCreator = (text) => ({type: UPDATE_NEW_POST_TEXT, newPostText: text});
 
 export default store;
