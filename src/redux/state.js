@@ -43,6 +43,19 @@ const store = {
         this._renderEntireTree(this._state);
     },
 
+    dispatch(action) {
+        switch (action.type) {
+            case "ADD-POST":
+                this.addPost();
+                break;
+            case "UPDATE-NEW-POST-TEXT":
+                this.updateNewPostText(action.newPostText);
+                break;
+            default:
+                console.log("could not find action")
+        }
+    }
+
 }
 
 window.store = store;
