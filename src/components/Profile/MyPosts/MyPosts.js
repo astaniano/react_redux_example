@@ -13,7 +13,7 @@ const MyPosts = (props) => {
     }
 
     let onChange = () => {
-        let text = postTextRef.current.value;
+        const text = postTextRef.current.value;
         props.dispatch(updateNewPostActionCreator(text));
     }
 
