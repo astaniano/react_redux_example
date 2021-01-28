@@ -19,12 +19,16 @@ const messagesReducer = (messagesPageState = initialState, action) => {
     switch (action.type) {
         case ADD_MSG:
             const newMsg = {id: 6, msg: messagesPageState.newMsgBody};
-            messagesPageState.messages.push(newMsg);
-            messagesPageState.newMsgBody = "";
-            return messagesPageState;
+            return {
+                ...messagesPageState,
+                messages: [...messagesPageState.messages, newMsg],
+                newMsgBody: "",
+            };
         case UPDATE_NEW_MSG_BODY:
-            messagesPageState.newMsgBody = action.newMsgBody;
-            return messagesPageState;
+            return {
+                ...messagesPageState,
+                newMsgBody: action.newMsgBody,
+            };
         default:
             return messagesPageState;
     }

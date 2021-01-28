@@ -3,9 +3,9 @@ import Post from './Post/Post';
 import s from './MyPosts.module.css';
 
 const MyPosts = (props) => {
-    let posts = props.posts.map((post) => <Post msg={post.msg} likesCount={post.likesCount}/>);
+    const posts = props.posts.map((post) => <Post msg={post.msg} likesCount={post.likesCount} key={post.id}/>);
 
-    let postTextRef = React.createRef();
+    const postTextRef = React.createRef();
 
     const onAddPost = () => {
         props.addPost();

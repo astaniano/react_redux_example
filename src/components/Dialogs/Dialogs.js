@@ -5,8 +5,8 @@ import s from './Dialogs.module.css';
 const Dialogs = (props) => {
     const state = props.messagesPage;
 
-    const dialogsElement = state.dialogs.map((dialog) => (<DialogItem name={dialog.name} id={dialog.id}/>))
-    const messagesElement = state.messages.map((message) => (<MsgItem msg={message.msg}/>))
+    const dialogsElement = state.dialogs.map((dialog) => (<DialogItem name={dialog.name} id={dialog.id} key={dialog.id}/>))
+    const messagesElement = state.messages.map((message) => (<MsgItem msg={message.msg} key={message.id}/>))
     const newMsgBody = state.newMsgBody;
 
     const onSendMsgClick = () => {
