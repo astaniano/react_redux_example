@@ -4,6 +4,8 @@ import Header from './components/Header/Header';
 import Navbar from './components/Navbar/Navbar';
 import Profile from './components/Profile/Profile';
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
+import Users from "./components/users/Users.js";
+import UsersContainer from "./components/users/UsersContainer";
 
 function App() {
     return (
@@ -15,9 +17,11 @@ function App() {
 
                 <div className="app-wrapper-content">
                     <Route path="/dialogs"
-                           render={() => <DialogsContainer />}/>
+                           render={() => <DialogsContainer/>}/>
                     <Route path="/profile"
-                           render={() => <Profile />}/>
+                           render={() => <Profile/>}/>
+                    <Route path="/users"
+                           render={() => <UsersContainer/>}/>
                 </div>
             </div>
         </BrowserRouter>
