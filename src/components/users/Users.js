@@ -1,33 +1,38 @@
 import s from './Users.module.css';
 import userPhoto from "../../assets/images/user.png"
+import {NavLink} from "react-router-dom";
 
 const Users = (props) => {
-        let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
-        if (pagesCount > 10) {
-            pagesCount = 10;
-        }
+    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
+    if (pagesCount > 10) {
+        pagesCount = 10;
+    }
 
-        const pageNumbers = [];
-        for (let i = 1; i <= pagesCount; i++) {
-            pageNumbers.push(i);
-        }
+    const pageNumbers = [];
+    for (let i = 1; i <= pagesCount; i++) {
+        pageNumbers.push(i);
+    }
 
-        return (
+    return (
+        <div>
             <div>
-                <div>
-                    {pageNumbers.map((currentPageNumber) => <span
-                        className={props.currentPage === currentPageNumber && s.selectedPage}
-                        onClick={(e) => {props.onPageChanged(currentPageNumber)}}
-                    >{currentPageNumber} </span>)
-                    }
-                </div>
-                {
-                    props.users.map((u) => (
-                        <div key={u.id}>
+                {pageNumbers.map((currentPageNumber) => <span
+                    className={props.currentPage === currentPageNumber && s.selectedPage}
+                    onClick={(e) => {
+                        props.onPageChanged(currentPageNumber)
+                    }}
+                >{currentPageNumber} </span>)
+                }
+            </div>
+            {
+                props.users.map((u) => (
+                    <div key={u.id}>
                         <span>
                             <div>
-                                <img src={u.photos.small != null ? u.photos.small : userPhoto} alt="no img"
-                                     className={s.userPhoto}/>
+                                <NavLink to={"profile/" + u.id}>
+                                    <img src={u.photos.small != null ? u.photos.small : userPhoto} alt="no img"
+                                         className={s.userPhoto}/>
+                                 </NavLink>
                             </div>
                             <div>
                                 {u.followed ?
@@ -39,7 +44,7 @@ const Users = (props) => {
                                     }}>follow</button>}
                             </div>
                         </span>
-                            <span>
+                        <span>
                             <span>
                                 <div>{u.name}</div>
                                 <div>{u.status}</div>
@@ -49,11 +54,11 @@ const Users = (props) => {
                                <div>{"u.location.city"}</div>
                             </span>
                         </span>
-                        </div>
-                    ))
-                }
-            </div>
-        );
+                    </div>
+                ))
+            }
+        </div>
+    );
 }
 
 export default Users;
