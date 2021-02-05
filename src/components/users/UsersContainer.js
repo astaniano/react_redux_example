@@ -12,7 +12,7 @@ import Users from "./Users";
 import React from "react";
 import Preloader from "../common/preloader/Preloader"
 
-class UsersContainerAPI extends React.Component {
+class UsersContainer extends React.Component {
 
     componentDidMount() {
         this.props.toggleIsFetching(true);
@@ -59,6 +59,14 @@ const mapStateToProps = (state) => {
     }
 }
 
+const mapDispatchToProps = {follow, unfollow, setUsers, setCurrentPage, setTotalUsersCount, toggleIsFetching};
+
+export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer);
+
+
+
+
+
 // const mapDispatchToProps = (dispatch) => {
 //     return {
 //         follow: (userId) => {
@@ -81,9 +89,3 @@ const mapStateToProps = (state) => {
 //         },
 //     }
 // }
-
-const mapDispatchToProps = {follow, unfollow, setUsers, setCurrentPage, setTotalUsersCount, toggleIsFetching};
-
-const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersContainerAPI);
-
-export default UsersContainer;
