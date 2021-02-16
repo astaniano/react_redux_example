@@ -16,25 +16,27 @@ class UsersContainer extends React.Component {
 
     componentDidMount() {
         this.props.toggleIsFetching(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`).then(res => {
-            this.props.toggleIsFetching(false);
-            this.props.setUsers(res.data.items);
-            this.props.setTotalUsersCount(res.data.totalCount);
-        })
+        axios.get(`http://localhost:8081/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
+            .then(res => {
+                this.props.toggleIsFetching(false);
+                this.props.setUsers(res.data.Users);
+                this.props.setTotalUsersCount(res.data.TotalCount);
+            })
     }
 
     onPageChanged = (currentPageNumber) => {
         this.props.setCurrentPage(currentPageNumber);
         this.props.toggleIsFetching(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPageNumber}&count=${this.props.pageSize}`).then(res => {
-            this.props.toggleIsFetching(false);
-            this.props.setUsers(res.data.items);
-        })
+        axios.get(`http://localhost:8081/users?page=${currentPageNumber}&count=${this.props.pageSize}`)
+            .then(res => {
+                this.props.toggleIsFetching(false);
+                this.props.setUsers(res.data.Users);
+            })
     }
 
     render() {
         return (<>
-                { this.props.isFetching ? <Preloader /> : null}
+                {this.props.isFetching ? <Preloader/> : null}
                 <Users
                     totalUsersCount={this.props.totalUsersCount}
                     pageSize={this.props.pageSize}
@@ -64,9 +66,7 @@ const mapDispatchToProps = {follow, unfollow, setUsers, setCurrentPage, setTotal
 export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer);
 
 
-
-
-
+// long way with dispatch
 // const mapDispatchToProps = (dispatch) => {
 //     return {
 //         follow: (userId) => {
