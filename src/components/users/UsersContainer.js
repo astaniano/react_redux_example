@@ -4,33 +4,34 @@ import {
     setCurrentPage,
     setTotalUsersCount,
     setUsers,
+    toggleDisableOfFollow,
     toggleIsFetching,
     unfollow
 } from "../../redux/usersReducer";
-import * as axios from "axios";
 import Users from "./Users";
 import React from "react";
 import Preloader from "../common/preloader/Preloader"
+import {usersAPI} from "../../api/api";
 
 class UsersContainer extends React.Component {
 
     componentDidMount() {
         this.props.toggleIsFetching(true);
-        axios.get(`http://localhost:8081/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
+        usersAPI.getUsers(this.props.currentPage, this.props.pageSize)
             .then(res => {
                 this.props.toggleIsFetching(false);
-                this.props.setUsers(res.data.Users);
-                this.props.setTotalUsersCount(res.data.TotalCount);
+                this.props.setUsers(res.Users);
+                this.props.setTotalUsersCount(res.TotalCount);
             })
     }
 
     onPageChanged = (currentPageNumber) => {
         this.props.setCurrentPage(currentPageNumber);
         this.props.toggleIsFetching(true);
-        axios.get(`http://localhost:8081/api/1.0/users?page=${currentPageNumber}&count=${this.props.pageSize}`)
+        usersAPI.getUsers(currentPageNumber, this.props.pageSize)
             .then(res => {
                 this.props.toggleIsFetching(false);
-                this.props.setUsers(res.data.Users);
+                this.props.setUsers(res.Users);
             })
     }
 
@@ -45,6 +46,8 @@ class UsersContainer extends React.Component {
                     follow={this.props.follow}
                     unfollow={this.props.unfollow}
                     onPageChanged={this.onPageChanged}
+                    toggleDisableOfFollow={this.props.toggleDisableOfFollow}
+                    disabledFollowButtons={this.props.disabledFollowButtons}
                 />
             </>
         );
@@ -58,10 +61,13 @@ const mapStateToProps = (state) => {
         totalUsersCount: state.usersPage.totalUsersCount,
         currentPage: state.usersPage.currentPage,
         isFetching: state.usersPage.isFetching,
+        disabledFollowButtons: state.usersPage.disabledFollowButtons,
     }
 }
 
-const mapDispatchToProps = {follow, unfollow, setUsers, setCurrentPage, setTotalUsersCount, toggleIsFetching};
+const mapDispatchToProps = {
+    follow, unfollow, setUsers, setCurrentPage, setTotalUsersCount, toggleIsFetching, toggleDisableOfFollow
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer);
 

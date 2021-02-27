@@ -34,22 +34,30 @@ const Users = (props) => {
                             </div>
                             <div>
                                 {u.Followed
-                                    ? <button onClick={() => {
+                                    ? <button
+                                        disabled={props.disabledFollowButtons.some((id) => u.Id === id)}
+                                        onClick={() => {
+                                        props.toggleDisableOfFollow(true, u.Id)
                                         axios.delete(`http://localhost:8081/api/1.0/users/follow/${u.Id}`)
                                             .then(res => {
                                                 if (res.data.ResultCode === 0) {
                                                     props.unfollow(u.Id)
                                                 }
+                                                props.toggleDisableOfFollow(false, u.Id)
                                             })
                                     }}>unfollow</button>
-                                    : <button onClick={() => {
-                                        axios.post(`http://localhost:8081/api/1.0/users/follow/${u.Id}`, {})
-                                            .then(res => {
-                                                if (res.data.ResultCode === 0) {
-                                                    props.follow(u.Id)
-                                                }
-                                            })
-                                    }}>follow</button>}
+                                    : <button
+                                        disabled={props.disabledFollowButtons.some((id) => u.Id === id)}
+                                        onClick={() => {
+                                            props.toggleDisableOfFollow(true, u.Id)
+                                            axios.post(`http://localhost:8081/api/1.0/users/follow/${u.Id}`, {})
+                                                .then(res => {
+                                                    if (res.data.ResultCode === 0) {
+                                                        props.follow(u.Id)
+                                                    }
+                                                    props.toggleDisableOfFollow(false, u.Id)
+                                                })
+                                        }}>follow</button>}
                             </div>
                         </span>
                         <span>
