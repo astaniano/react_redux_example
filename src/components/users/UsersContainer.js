@@ -16,7 +16,7 @@ class UsersContainer extends React.Component {
 
     componentDidMount() {
         this.props.toggleIsFetching(true);
-        axios.get(`http://localhost:8081/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
+        axios.get(`http://localhost:8081/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
             .then(res => {
                 this.props.toggleIsFetching(false);
                 this.props.setUsers(res.data.Users);
@@ -27,7 +27,7 @@ class UsersContainer extends React.Component {
     onPageChanged = (currentPageNumber) => {
         this.props.setCurrentPage(currentPageNumber);
         this.props.toggleIsFetching(true);
-        axios.get(`http://localhost:8081/users?page=${currentPageNumber}&count=${this.props.pageSize}`)
+        axios.get(`http://localhost:8081/api/1.0/users?page=${currentPageNumber}&count=${this.props.pageSize}`)
             .then(res => {
                 this.props.toggleIsFetching(false);
                 this.props.setUsers(res.data.Users);
@@ -66,7 +66,7 @@ const mapDispatchToProps = {follow, unfollow, setUsers, setCurrentPage, setTotal
 export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer);
 
 
-// long way with dispatch
+// long way of mapDispatchToProps
 // const mapDispatchToProps = (dispatch) => {
 //     return {
 //         follow: (userId) => {

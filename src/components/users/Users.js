@@ -35,24 +35,24 @@ const Users = (props) => {
                             <div>
                                 {u.Followed
                                     ? <button onClick={() => {
-                                        axios.delete(`http://localhost:8081/users/follow/${u.Id}`, {})
+                                        axios.delete(`http://localhost:8081/api/1.0/users/follow/${u.Id}`)
                                             .then(res => {
-                                                if (res.data.resultCode === 0) {
+                                                if (res.data.ResultCode === 0) {
                                                     props.unfollow(u.Id)
                                                 }
                                             })
                                     }}>unfollow</button>
                                     : <button onClick={() => {
-                                        axios.post(`http://localhost:8081/users/follow/${u.Id}`, {})
+                                        axios.post(`http://localhost:8081/api/1.0/users/follow/${u.Id}`, {})
                                             .then(res => {
-                                                if (res.data.resultCode === 0) {
+                                                if (res.data.ResultCode === 0) {
                                                     props.follow(u.Id)
                                                 }
                                             })
                                     }}>follow</button>}
-</div>
-</span>
-<span>
+                            </div>
+                        </span>
+                        <span>
                             <span>
                                 <div>{u.Name}</div>
                                 <div>{u.Status}</div>
@@ -62,12 +62,12 @@ const Users = (props) => {
                                <div>{"u.location.city"}</div>
                             </span>
                         </span>
-</div>
-))
-}
-</div>
-)
-;
+                    </div>
+                ))
+            }
+        </div>
+    )
+        ;
 }
 
 export default Users;
