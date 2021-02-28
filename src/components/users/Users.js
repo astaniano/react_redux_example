@@ -1,7 +1,6 @@
 import s from './Users.module.css';
 import userPhoto from "../../assets/images/user.png"
 import {NavLink} from "react-router-dom";
-import * as axios from "axios";
 
 const Users = (props) => {
     let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
@@ -36,28 +35,10 @@ const Users = (props) => {
                                 {u.Followed
                                     ? <button
                                         disabled={props.disabledFollowButtons.some((id) => u.Id === id)}
-                                        onClick={() => {
-                                        props.toggleDisableOfFollow(true, u.Id)
-                                        axios.delete(`http://localhost:8081/api/1.0/users/follow/${u.Id}`)
-                                            .then(res => {
-                                                if (res.data.ResultCode === 0) {
-                                                    props.unfollow(u.Id)
-                                                }
-                                                props.toggleDisableOfFollow(false, u.Id)
-                                            })
-                                    }}>unfollow</button>
+                                        onClick={() => {props.unfollow(u.Id)}}>unfollow</button>
                                     : <button
                                         disabled={props.disabledFollowButtons.some((id) => u.Id === id)}
-                                        onClick={() => {
-                                            props.toggleDisableOfFollow(true, u.Id)
-                                            axios.post(`http://localhost:8081/api/1.0/users/follow/${u.Id}`, {})
-                                                .then(res => {
-                                                    if (res.data.ResultCode === 0) {
-                                                        props.follow(u.Id)
-                                                    }
-                                                    props.toggleDisableOfFollow(false, u.Id)
-                                                })
-                                        }}>follow</button>}
+                                        onClick={() => {props.follow(u.Id)}}>follow</button>}
                             </div>
                         </span>
                         <span>

@@ -6,10 +6,11 @@
 .header img {
 	width: 900px;
 	height: 50px;
+	float: right;
 }
 
 .loginBlock {
-	float: right;
+	float: left;
 }
 
 .loginBlock a {

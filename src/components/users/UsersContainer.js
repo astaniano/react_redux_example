@@ -1,38 +1,23 @@
 import {connect} from "react-redux";
 import {
-    follow,
+    follow, getUsersThunkCreator,
     setCurrentPage,
-    setTotalUsersCount,
-    setUsers,
     toggleDisableOfFollow,
-    toggleIsFetching,
     unfollow
 } from "../../redux/usersReducer";
 import Users from "./Users";
 import React from "react";
 import Preloader from "../common/preloader/Preloader"
-import {usersAPI} from "../../api/api";
 
 class UsersContainer extends React.Component {
 
     componentDidMount() {
-        this.props.toggleIsFetching(true);
-        usersAPI.getUsers(this.props.currentPage, this.props.pageSize)
-            .then(res => {
-                this.props.toggleIsFetching(false);
-                this.props.setUsers(res.Users);
-                this.props.setTotalUsersCount(res.TotalCount);
-            })
+        this.props.getUsers(this.props.currentPage, this.props.pageSize)
     }
 
     onPageChanged = (currentPageNumber) => {
         this.props.setCurrentPage(currentPageNumber);
-        this.props.toggleIsFetching(true);
-        usersAPI.getUsers(currentPageNumber, this.props.pageSize)
-            .then(res => {
-                this.props.toggleIsFetching(false);
-                this.props.setUsers(res.Users);
-            })
+        this.props.getUsers(currentPageNumber, this.props.pageSize);
     }
 
     render() {
@@ -46,7 +31,6 @@ class UsersContainer extends React.Component {
                     follow={this.props.follow}
                     unfollow={this.props.unfollow}
                     onPageChanged={this.onPageChanged}
-                    toggleDisableOfFollow={this.props.toggleDisableOfFollow}
                     disabledFollowButtons={this.props.disabledFollowButtons}
                 />
             </>
@@ -66,7 +50,9 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-    follow, unfollow, setUsers, setCurrentPage, setTotalUsersCount, toggleIsFetching, toggleDisableOfFollow
+    follow, unfollow, setCurrentPage,
+    toggleDisableOfFollow,
+    getUsers: getUsersThunkCreator
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer);
@@ -92,6 +78,21 @@ export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer);
 //         },
 //         toggleIsFetching: (isFetching) => {
 //             dispatch(toggleIsFetchingAC(isFetching));
+//         },
+//
+//
+//
+// getUsersThunkCreator is experimental might not be true!
+//         getUsersThunkCreator: (currentPage, pageSize) => {
+//             return (dispatch) => {
+//                 dispatch(toggleIsFetching(true));
+//                 usersAPI.getUsers(currentPage, pageSize)
+//                     .then(res => {
+//                         dispatch(toggleIsFetching(false));
+//                         dispatch(setUsers(res.Users));
+//                         dispatch(setTotalUsersCount(res.TotalCount));
+//                     })
+//             }
 //         },
 //     }
 // }
