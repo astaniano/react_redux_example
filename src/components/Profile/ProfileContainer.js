@@ -1,7 +1,7 @@
 import React from "react";
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import {setUserProfile} from "../../redux/profileReducer";
+import {setUserProfile, getUserStatus, updateUserStatus} from "../../redux/profileReducer";
 import {withRouter} from "react-router";
 import {compose} from "redux";
 
@@ -14,20 +14,25 @@ class ProfileContainer extends React.Component {
         }
 
         this.props.setUserProfile(userId);
+        // setTimeout(() => {
+            this.props.getUserStatus(userId);
+        // }, 1000)
+
     }
 
     render() {
         return (
-            <Profile {...this.props} profile={this.props.profile}/>
+            <Profile {...this.props} />
         );
     }
 }
 
 const mapStateToProps = (state) => ({
     profile: state.profilePage.profile,
+    userStatus: state.profilePage.userStatus,
 });
 
-const mapDispatchToProps = {setUserProfile};
+const mapDispatchToProps = {setUserProfile, getUserStatus, updateUserStatus};
 
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),

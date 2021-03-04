@@ -21,7 +21,7 @@ const ProfileInfo = (props) => {
 				ava + description
 			</div>
 
-			<ProfileStatus status={"hello my friends"} />
+			<ProfileStatus userStatus={props.userStatus} updateUserStatus={props.updateUserStatus} match={props.match}/>
 		</div>
 	);
 };

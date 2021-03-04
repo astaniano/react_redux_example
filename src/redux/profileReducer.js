@@ -3,6 +3,7 @@ import {profileAPI} from "../api/api";
 const ADD_POST = "ADD-POST";
 const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
 const SET_USER_PROFILE = "SET_USER_PROFILE";
+const SET_USER_STATUS = "SET_USER_STATUS";
 
 const initialState = {
     posts: [
@@ -11,6 +12,7 @@ const initialState = {
     ],
     newPostText: "",
     profile: null,
+    userStatus: ""
 }
 
 const profileReducer = (profilePageState = initialState, action) => {
@@ -32,6 +34,11 @@ const profileReducer = (profilePageState = initialState, action) => {
                 ...profilePageState,
                 profile: action.profile,
             }
+        case SET_USER_STATUS:
+            return {
+                ...profilePageState,
+                userStatus: action.userStatus,
+            }
         default:
             return profilePageState;
     }
@@ -40,11 +47,32 @@ const profileReducer = (profilePageState = initialState, action) => {
 export const addPostActionCreator = () => ({type: ADD_POST});
 export const updateNewPostActionCreator = (text) => ({type: UPDATE_NEW_POST_TEXT, newPostText: text});
 export const setUserProfileAC = (profile) => ({type: SET_USER_PROFILE, profile});
+export const setStatus = (userStatus) => ({type: SET_USER_STATUS, userStatus});
 
 export const setUserProfile = (userId) => {
     return (dispatch) => {
         profileAPI.getUserProfile(userId).then(res => {
             dispatch(setUserProfileAC(res.data));
+        })
+    }
+}
+
+export const getUserStatus = (userId) => {
+    return (dispatch) => {
+        profileAPI.getUserStatus(userId).then(res => {
+            if (res.data.ResultCode === 0) {
+                dispatch(setStatus(res.data.UserStatus));
+            }
+        })
+    }
+}
+
+export const updateUserStatus = (userId, status) => {
+    return (dispatch) => {
+        profileAPI.updateUserStatus(userId, status).then(res => {
+            if (res.data.ResultCode === 0) {
+                dispatch(setStatus(res.data.UserStatus));
+            }
         })
     }
 }
