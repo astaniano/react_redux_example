@@ -12,17 +12,17 @@ function App() {
         <BrowserRouter>
             <div className="app-wrapper">
                 <HeaderContainer />
-                <Navbar/>
+                <Navbar />
 
                 <div className="app-wrapper-content">
                     <Route path="/dialogs"
-                           render={() => <DialogsContainer/>}/>
+                           render={() => <DialogsContainer/>} />
                     <Route path="/profile/:userId?"
-                           render={() => <ProfileContainer/>}/>
+                           render={() => <ProfileContainer/>} />
                     <Route path="/users"
-                           render={() => <UsersContainer/>}/>
+                           render={() => <UsersContainer/>} />
                     <Route path="/login"
-                           render={() => <Login/>}/>
+                           render={() => <Login/>} />
                 </div>
             </div>
         </BrowserRouter>
