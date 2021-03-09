@@ -11,6 +11,9 @@ class ProfileContainer extends React.Component {
         let userId = this.props.match.params.userId;
         if (!userId) {
             userId = this.props.loggedUserId;
+            // if (!userId) {
+            //     this.props.history.push('/dialogs');
+            // }
         }
 
         this.props.setUserProfile(userId);
