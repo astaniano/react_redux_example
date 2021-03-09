@@ -1,6 +1,6 @@
 import {connect} from "react-redux";
 import {
-    follow, getUsersThunkCreator,
+    follow, requestUsers,
     setCurrentPage,
     toggleDisableOfFollow,
     unfollow
@@ -10,6 +10,14 @@ import React from "react";
 import Preloader from "../common/preloader/Preloader"
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
+import {
+    getCurrentPage,
+    getFollowingInProgress,
+    getIsFetching,
+    getPageSize,
+    getTotalUsersCount,
+    getUsers
+} from "../../redux/user-selectors";
 
 class UsersContainer extends React.Component {
 
@@ -40,21 +48,32 @@ class UsersContainer extends React.Component {
     }
 }
 
+// const mapStateToProps = (state) => {
+//     return {
+//         users: state.usersPage.users,
+//         pageSize: state.usersPage.pageSize,
+//         totalUsersCount: state.usersPage.totalUsersCount,
+//         currentPage: state.usersPage.currentPage,
+//         isFetching: state.usersPage.isFetching,
+//         disabledFollowButtons: state.usersPage.disabledFollowButtons,
+//     }
+// }
+
 const mapStateToProps = (state) => {
     return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        totalUsersCount: state.usersPage.totalUsersCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        disabledFollowButtons: state.usersPage.disabledFollowButtons,
+        users: getUsers(state),
+        pageSize: getPageSize(state),
+        totalUsersCount: getTotalUsersCount(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getIsFetching(state),
+        disabledFollowButtons: getFollowingInProgress(state),
     }
 }
 
 const mapDispatchToProps = {
     follow, unfollow, setCurrentPage,
     toggleDisableOfFollow,
-    getUsers: getUsersThunkCreator
+    getUsers: requestUsers
 };
 
 export default compose(
