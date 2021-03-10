@@ -1,6 +1,7 @@
 import s from './ProfileInfo.module.css';
 import Preloader from "../../common/preloader/Preloader";
 import ProfileStatus from "./ProfileStatus";
+import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 
 const ProfileInfo = (props) => {
 	if (!props.profile) {
@@ -21,7 +22,7 @@ const ProfileInfo = (props) => {
 				ava + description
 			</div>
 
-			<ProfileStatus userStatus={props.userStatus} updateUserStatus={props.updateUserStatus} match={props.match}/>
+			<ProfileStatusWithHooks userStatus={props.userStatus} updateUserStatus={props.updateUserStatus} match={props.match}/>
 		</div>
 	);
 };
