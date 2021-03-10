@@ -21,17 +21,21 @@ class ProfileContainer extends React.Component {
     }
 
     render() {
+        console.log("render profile")
         return (
             <Profile {...this.props} />
         );
     }
 }
 
-const mapStateToProps = (state) => ({
-    profile: state.profilePage.profile,
-    userStatus: state.profilePage.userStatus,
-    loggedUserId: state.auth.userId,
-});
+const mapStateToProps = (state) => {
+    console.log("mapStateToProps profile")
+    return {
+        profile: state.profilePage.profile,
+        userStatus: state.profilePage.userStatus,
+        loggedUserId: state.auth.userId,
+    }
+};
 
 const mapDispatchToProps = {setUserProfile, getUserStatus, updateUserStatus};
 

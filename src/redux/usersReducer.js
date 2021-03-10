@@ -15,10 +15,13 @@ const initialState = {
     currentPage: 1,
     isFetching: false,
     disabledFollowButtons: [],
+    fake: 10,
 }
 
 const usersReducer = (usersPageState = initialState, action) => {
     switch (action.type) {
+        case "FAKE":
+            return {...usersPageState, fake: usersPageState.fake + 1};
         case FOLLOW:
             return {
                 ...usersPageState,
