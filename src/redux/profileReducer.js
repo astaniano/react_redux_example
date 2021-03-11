@@ -8,6 +8,8 @@ const initialState = {
     posts: [
         {id: 1, msg: 'jo', likesCount: 12},
         {id: 2, msg: 'gg', likesCount: 11},
+        {id: 3, msg: 'ggvv', likesCount: 13},
+        {id: 4, msg: 'ffff', likesCount: 14},
     ],
     profile: null,
     userStatus: ""

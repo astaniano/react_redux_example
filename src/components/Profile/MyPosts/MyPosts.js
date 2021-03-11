@@ -22,6 +22,7 @@ const AddPostForm = (props) => {
 const AddPostReduxForm = reduxForm({form: 'profileAddPostForm'})(AddPostForm)
 
 const MyPosts = (props) => {
+    console.log("MyPosts render");
     const posts = props.posts.map((post) => <Post msg={post.msg} likesCount={post.likesCount} key={post.id}/>);
 
     const addPost = (formData) => {
