@@ -62,7 +62,6 @@ class UsersContainer extends React.Component {
 // }
 
 const mapStateToProps = (state) => {
-    console.log("users mapStateToProps")
     return {
         // users: getUsers(state),
         users: getUsersSuperSelector(state),
@@ -106,20 +105,5 @@ export default compose(
 //         toggleIsFetching: (isFetching) => {
 //             dispatch(toggleIsFetchingAC(isFetching));
 //         },
-//
-//
-//
-// getUsersThunkCreator is experimental might not be true!
-//         getUsersThunkCreator: (currentPage, pageSize) => {
-//             return (dispatch) => {
-//                 dispatch(toggleIsFetching(true));
-//                 usersAPI.getUsers(currentPage, pageSize)
-//                     .then(res => {
-//                         dispatch(toggleIsFetching(false));
-//                         dispatch(setUsers(res.Users));
-//                         dispatch(setTotalUsersCount(res.TotalCount));
-//                     })
-//             }
-//         },
-//     }
+//      }
 // }

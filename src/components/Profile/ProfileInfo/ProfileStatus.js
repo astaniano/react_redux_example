@@ -14,8 +14,9 @@ class ProfileStatus extends React.Component {
 
     deactivateEditMode = () => {
         this.setState({editMode: false});
-        let userId = this.props.match.params.userId;
-        this.props.updateUserStatus(userId, this.state.userStatus);
+        // let userId = this.props.match.params.userId;
+        // this.props.updateUserStatus(userId, this.state.userStatus);
+        this.props.updateUserStatus(1, this.state.userStatus);
     }
 
     onStatusChange = (e) => {
