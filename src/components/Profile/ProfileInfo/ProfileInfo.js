@@ -2,27 +2,28 @@ import s from './ProfileInfo.module.css';
 import Preloader from "../../common/preloader/Preloader";
 // import ProfileStatus from "./ProfileStatus";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
+import userPhoto from "../../../assets/images/user.png"
 
-const ProfileInfo = (props) => {
-	if (!props.profile) {
+const ProfileInfo = ({profile, isOwner, userStatus, updateUserStatus, match, savePhoto}) => {
+
+	if (!profile) {
 		return <Preloader />
+	}
+
+	const onMainPhotoSelected = (e) => {
+		if (e.target.files.length > 0) {
+			savePhoto(e.target.files[0])
+		}
 	}
 
 	return (
 		<div>
-			{/*<div>
-				<img className={s.profileImg}
-					src="https://p.bigstockphoto.com/GeFvQkBbSLaMdpKXF1Zv_bigstock-Aerial-View-Of-Blue-Lakes-And--227291596.jpg"
-					alt="f"
-				/>
-			</div>*/}
-
 			<div className={s.descriptionBlock}>
-				<img src={props.profile.Photos.Small} alt=""/>
-				ava + description
+				<img src={profile.Photos.Small || userPhoto} className={s.mainPhoto} alt=""/>
+				{isOwner && <input type="file" onChange={onMainPhotoSelected}/>}
 			</div>
 
-			<ProfileStatusWithHooks userStatus={props.userStatus} updateUserStatus={props.updateUserStatus} match={props.match}/>
+			<ProfileStatusWithHooks userStatus={userStatus} updateUserStatus={updateUserStatus} match={match}/>
 		</div>
 	);
 };
