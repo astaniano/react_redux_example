@@ -1,4 +1,5 @@
 import {profileAPI} from "../api/api";
+import {stopSubmit} from "redux-form";
 
 const ADD_POST = "ADD-POST";
 const SET_USER_PROFILE = "SET_USER_PROFILE";
@@ -43,7 +44,7 @@ const profileReducer = (state = initialState, action) => {
         case SAVE_PHOTO_SUCCESS:
             return {
                 ...state,
-                profile: {...state.profile, Photos: action.photos},
+                profile: {...state.profile, photos: action.photos},
             }
         default:
             return state;
@@ -56,29 +57,24 @@ export const setUserProfileAC = (profile) => ({type: SET_USER_PROFILE, profile})
 export const setStatus = (userStatus) => ({type: SET_USER_STATUS, userStatus});
 export const savePhotoSuccess = (photos) => ({type: SAVE_PHOTO_SUCCESS, photos});
 
-export const setUserProfile = (userId) => {
-    return (dispatch) => {
-        profileAPI.getUserProfile(userId).then(res => {
-            dispatch(setUserProfileAC(res.data));
-        })
-    }
+export const getUserProfile = (userId) => async (dispatch) => {
+    const res = await profileAPI.getUserProfile(userId);
+    dispatch(setUserProfileAC(res.data));
 }
 
-export const getUserStatus = (userId) => {
-    return (dispatch) => {
-        profileAPI.getUserStatus(userId).then(res => {
-            if (res.data.ResultCode === 0) {
-                dispatch(setStatus(res.data.UserStatus));
-            }
-        })
+
+export const getUserStatus = (userId) => async (dispatch) => {
+    const res = await profileAPI.getUserStatus(userId);
+    if (res.data.resultCode === 0) {
+        dispatch(setStatus(res.data.userStatus));
     }
 }
 
 export const updateUserStatus = (userId, status) => {
     return (dispatch) => {
         profileAPI.updateUserStatus(userId, status).then(res => {
-            if (res.data.ResultCode === 0) {
-                dispatch(setStatus(res.data.UserStatus));
+            if (res.data.resultCode === 0) {
+                dispatch(setStatus(res.data.userStatus));
             }
         })
     }
@@ -89,6 +85,23 @@ export const savePhoto = (photo) => async (dispatch) => {
     if (res.data.resultCode === 0) {
         dispatch(savePhotoSuccess(res.data.photos));
     }
+}
+
+export const saveProfileInfo = (profile) => async (dispatch, getState) => {
+    const userId = getState().auth.userId;
+    const res = await profileAPI.saveProfileInfo(profile); // server is not ready =))
+    // if (res.data.resultCode === 0) {
+    //     dispatch(getUserProfile(userId));
+    // } else {
+    //     const _error = res.data.messages.length > 0 ? res.data.messages[0] : "sorry can not update profile info"
+        const _error = "sorry can not update profile info"
+        // this one works for specific items
+        // dispatch(stopSubmit("edit-profile-form", {"contacts" : {"github": _error}}))
+
+        // this is general error handling
+        dispatch(stopSubmit("edit-profile-form", {_error}))
+        return Promise.reject(_error);
+    // }
 }
 
 export default profileReducer;

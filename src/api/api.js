@@ -37,6 +37,10 @@ export const profileAPI = {
             }
         });
     },
+    saveProfileInfo(profile) {
+        console.log(profile)
+        // return instance.put(`profile`, profile);
+    },
 }
 
 export const authAPI = {

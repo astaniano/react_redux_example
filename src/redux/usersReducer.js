@@ -23,8 +23,8 @@ const usersReducer = (usersPageState = initialState, action) => {
             return {
                 ...usersPageState,
                 users: usersPageState.users.map((u) => {
-                    if (u.Id === action.userId) {
-                        return {...u, Followed: true};
+                    if (u.id === action.userId) {
+                        return {...u, followed: true};
                     }
 
                     return u;
@@ -34,8 +34,8 @@ const usersReducer = (usersPageState = initialState, action) => {
             return {
                 ...usersPageState,
                 users: usersPageState.users.map((u) => {
-                    if (u.Id === action.userId) {
-                        return {...u, Followed: false};
+                    if (u.id === action.userId) {
+                        return {...u, followed: false};
                     }
 
                     return u;
@@ -81,28 +81,23 @@ export const setTotalUsersCount = (totalUsersCount) => ({type: SET_TOTAL_USERS_C
 export const toggleIsFetching = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching});
 export const toggleDisableOfFollow = (isFetching, userId) => ({type: TOGGLE_DISABLE_OF_FOLLOW, isFetching, userId});
 
-export const requestUsers = (page, pageSize) => {
-    return (dispatch) => {
-        dispatch(toggleIsFetching(true));
-        usersAPI.getUsers(page, pageSize)
-            .then(res => {
-                dispatch(toggleIsFetching(false));
-                dispatch(setUsers(res.Users));
-                dispatch(setTotalUsersCount(res.TotalCount));
-            })
-    }
+export const requestUsers = (page, pageSize) => async (dispatch) => {
+    dispatch(toggleIsFetching(true));
+    let res = await usersAPI.getUsers(page, pageSize);
+    dispatch(toggleIsFetching(false));
+    dispatch(setUsers(res.Users));
+    dispatch(setTotalUsersCount(res.TotalCount));
 }
 
-export const follow = (userId) => {
-    return (dispatch) => {
-        dispatch(toggleDisableOfFollow(true, userId))
-        usersAPI.follow(userId).then(res => {
-            if (res.data.ResultCode === 0) {
-                dispatch(followSuccess(userId));
-            }
-            dispatch(toggleDisableOfFollow(false, userId));
-        })
-    }
+
+export const follow = (userId) => async (dispatch) => {
+    dispatch(toggleDisableOfFollow(true, userId))
+    usersAPI.follow(userId).then(res => {
+        if (res.data.resultCode === 0) {
+            dispatch(followSuccess(userId));
+        }
+        dispatch(toggleDisableOfFollow(false, userId));
+    })
 }
 
 export const unfollow = (userId) => {
