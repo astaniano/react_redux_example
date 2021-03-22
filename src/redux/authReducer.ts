@@ -1,16 +1,26 @@
 import {authAPI} from "../api/api";
 import {stopSubmit} from "redux-form";
+import {ThunkDispatch} from 'redux-thunk';
 
 const SET_USER_DATA = "SET_USER_DATA";
 
-const initialState = {
+type MyState = {
+    userId: null | number,
+    email: null | string,
+    login: null | string,
+    isAuth: boolean,
+}
+
+const initialState: MyState = {
     userId: null,
     email: null,
     login: null,
     isAuth: false,
 }
 
-const authReducer = (state = initialState, action) => {
+interface MyAction{ type: string, payload: object }
+
+const authReducer = (state: MyState = initialState, action: MyAction) => {
     switch (action.type) {
         case SET_USER_DATA:
             return {
@@ -22,15 +32,18 @@ const authReducer = (state = initialState, action) => {
     }
 }
 
-export const setAuthUserData = (userId, email, login, isAuth) => (
+export const setAuthUserData = (userId: number | null, email: string | null,
+                                login: string | null, isAuth: boolean) => (
     {
         type: SET_USER_DATA,
         payload: {userId, email, login, isAuth}
     }
 );
 
+// type response
+
 export const authMe = () => {
-    return (dispatch) => {
+    return (dispatch: ThunkDispatch<MyState, void, MyAction>) => {
         return authAPI.authMe().then(res => {
             if (res.data.resultCode === 0) {
                 const {login, userId, email} = res.data.data;
@@ -40,8 +53,8 @@ export const authMe = () => {
     }
 }
 
-export const login = (email, password, rememberMe = false) => {
-    return (dispatch) => {
+export const login = (email: string, password: string, rememberMe = false) => {
+    return (dispatch: ThunkDispatch<MyState, void, MyAction>) => {
         authAPI.login(email, password, rememberMe).then(res => {
             if (res.data.resultCode === 0) {
                 dispatch(authMe())
@@ -54,7 +67,7 @@ export const login = (email, password, rememberMe = false) => {
 }
 
 export const logout = () => {
-    return (dispatch) => {
+    return (dispatch: ThunkDispatch<MyState, void, MyAction>) => {
         authAPI.logout().then(res => {
             if (res.data.resultCode === 0) {
                 dispatch(setAuthUserData(null, null, null, false));
