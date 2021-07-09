@@ -15,23 +15,22 @@ export const usersAPI = {
     unfollow(userId) {
         return instance.delete(`users/follow/${userId}`)
     },
-
 }
 
 export const profileAPI = {
     getUserProfile(userId) {
-        return instance.get(`profile/${userId}`);
+        return instance.get(`users/profile/${userId}`);
     },
     getUserStatus(userId) {
-        return instance.get(`profile/status/${userId}`);
+        return instance.get(`users/profile/status/${userId}`);
     },
     updateUserStatus(userId, status) {
-        return instance.put(`profile/status/${userId}`, {status});
+        return instance.put(`users/profile/status/${userId}`, {status});
     },
     savePhoto(photo) {
         const formData = new FormData();
         formData.append("image", photo)
-        return instance.put(`profile/photo`, formData, {
+        return instance.put(`users/profile/photo`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -51,6 +50,6 @@ export const authAPI = {
         return instance.post(`auth/login`, {email, password, rememberMe})
     },
     logout() {
-        return instance.delete(`auth/login`)
+        return instance.delete(`auth/logout`)
     }
 }

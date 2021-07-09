@@ -4,7 +4,7 @@ import {ThunkDispatch} from 'redux-thunk';
 
 const SET_USER_DATA = "SET_USER_DATA";
 
-// type MyStateType = {
+// type InitStateType = {
 //     userId: null | number,
 //     email: null | string,
 //     login: null | string,
@@ -18,12 +18,12 @@ const initialState = {
     isAuth: false as boolean,
 }
 
-type MyStateType = typeof initialState;
+type InitialStateType = typeof initialState;
 
 // type PayloadType = { userId: number, email: string, login: string, isAuth: boolean };
-type MyAction = { type: typeof SET_USER_DATA, payload?: MyStateType };
+type MyAction = { type: typeof SET_USER_DATA, payload?: InitialStateType };
 
-const authReducer = (state: MyStateType = initialState, action: MyAction): MyStateType => {
+const authReducer = (state: InitialStateType = initialState, action: MyAction): InitialStateType => {
     switch (action.type) {
         case SET_USER_DATA:
             return {
@@ -35,9 +35,13 @@ const authReducer = (state: MyStateType = initialState, action: MyAction): MySta
     }
 }
 
+type SetAuthUserDataType = {
+    type: typeof SET_USER_DATA,
+    payload: InitialStateType,
+};
+
 export const setAuthUserData = (userId: number | null, email: string | null,
-                                login: string | null, isAuth: boolean):
-    MyAction => {
+                                login: string | null, isAuth: boolean): SetAuthUserDataType => {
     return {
         type: SET_USER_DATA,
         payload: {userId, email, login, isAuth}
@@ -56,7 +60,7 @@ type AuthResponse = {
 }
 
 export const authMe = () => {
-    return (dispatch: ThunkDispatch<MyStateType, void, MyAction>) => {
+    return (dispatch: ThunkDispatch<InitialStateType, void, MyAction>) => {
         return authAPI.authMe().then((res: AuthResponse) => {
             if (res.data.resultCode === 0) {
                 const {login, userId, email} = res.data.data;
@@ -80,7 +84,7 @@ type LoginResponse = {
 type LoginRes = { data: { resultCode: number, messages: Array<string> } };
 
 export const login = (email: string, password: string, rememberMe = false) => {
-    return (dispatch: ThunkDispatch<MyStateType, void, MyAction>) => {
+    return (dispatch: ThunkDispatch<InitialStateType, void, MyAction>) => {
         authAPI.login(email, password, rememberMe).then((res: LoginRes) => {
             if (res.data.resultCode === 0) {
                 dispatch(authMe())
@@ -93,7 +97,7 @@ export const login = (email: string, password: string, rememberMe = false) => {
 }
 
 export const logout = () => {
-    return (dispatch: ThunkDispatch<MyStateType, void, MyAction>) => {
+    return (dispatch: ThunkDispatch<InitialStateType, void, MyAction>) => {
         authAPI.logout().then((res: LoginRes) => {
             if (res.data.resultCode === 0) {
                 dispatch(setAuthUserData(null, null, null, false));
